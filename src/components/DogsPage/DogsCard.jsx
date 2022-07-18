@@ -1,10 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { CartContext } from "../Context/CartContext";
 import "./dogs.css";
 export const DogsCard = (props) => {
   const { id, name, breed, description, price, imageUrl } = props;
+  const {addToCart, setTotal} = useContext(CartContext)
   const [isAdded, setAdded] = useState(false);
   const handleClick = () => {
     setAdded(true);
+    const newCartDog = {
+      name: name,
+      id: id,
+      imageUrl: imageUrl,
+      price: price,
+    }
+    addToCart((items)=> [...items,newCartDog])
+    setTotal((total)=> total += Number(price))
   };
   return (
     <>
@@ -19,7 +29,7 @@ export const DogsCard = (props) => {
         <div className="dogs-desc">{description}</div>
         <div className="dogs-price">{price}</div>
         {isAdded ? (
-          <button disable className="dogs-btn-disabled">ADDED</button>
+          <button disable="true" className="dogs-btn-disabled">ADDED</button>
         ) : (
           <button className="dogs-btn" onClick={handleClick}>
             Add to card
