@@ -1,8 +1,17 @@
 import React, { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { CartContext } from '../Context/CartContext'
 import "./cart.css"
 export const Carts = () => {
-  const {myCart,total} = useContext(CartContext)
+  const {myCart,total, addToCart,setTotal} = useContext(CartContext)
+  const navigate = useNavigate()
+  const handleCheckout = () =>{
+    setTotal(0)
+    addToCart([{}])
+  }
+  const handleHome =()=>{
+    navigate("/")
+  }
   return (
     <>
     <section className="cart-container">
@@ -18,6 +27,8 @@ export const Carts = () => {
         })}
         <div className="cart-total">Total: {total} $</div>
       </div>
+      <button className='cart-checkout' onClick={handleCheckout}>Done</button>
+      <button className='cart-gohome' onClick={handleHome}>BACK TO HOMEPAGE</button>
     </section>
     </>
   )
